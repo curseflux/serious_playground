@@ -27,7 +27,11 @@ def act_lander(obs, mem):
     vy = obs["velocity"]
     g = obs["gravity"]
     hi = obs["thrust_levels"][2]
-    target = obs["safe_speed"] * 0.55        # aim comfortably inside the limit
+    # 0.55 is a deliberately conservative margin, not the optimum. Sweeping this
+    # constant, the score peaks near 0.92 (94.55 vs 93.77 here) and falls off a cliff
+    # by 0.94. Six tenths of a point is not worth sitting that close to the edge when
+    # the test conditions are unknown. See 02_worked_example.md for the measurements.
+    target = obs["safe_speed"] * 0.55
 
     speed = -vy                              # falling is negative
     if speed <= 0.0:                         # rising: never waste fuel
